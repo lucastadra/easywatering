@@ -1,11 +1,9 @@
-
-var bodyParser = require("body-parser");
-var mqttHandler = require('../handlers/mqtt/mqttHandler');
-
 var express = require('express');
 const mqttRoutes = express.Router();
 
-var mqttClient = new mqttHandler();
+const mqttHandler = require('../handlers/mqtt/mqttHandler');
+
+const mqttClient = new mqttHandler();
 mqttClient.connect();
 
 // Routes
