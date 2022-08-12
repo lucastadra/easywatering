@@ -1,0 +1,17 @@
+{
+  "name": "nodeechowebsocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "websocket.js",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "mqtt": "^4.3.7",
+    "websocket": "^1.0.30"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
