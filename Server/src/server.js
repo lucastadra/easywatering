@@ -1,5 +1,5 @@
 var express = require('express');
-const cookieSession = require("cookie-session");
+const cookieSession = require('cookie-session');
 var cors = require('cors');
 var routes = require('./routes/index.routes');
 var db = require('../config/database/sequelize.config');
@@ -12,7 +12,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-db.sync().then(() => console.log("DB Sync complete."))
+db.sync().then(() => console.log('DB Sync complete.'))
 
 app.use(cors(corsOptions));
 app.use(express.json());

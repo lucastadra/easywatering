@@ -21,6 +21,6 @@ Users.init({
         // Other attributes here
     },
     created_at: Sequelize.DATE
-}, { db, modelName: 'users' });
+}, { sequelize: db, modelName: 'users' });
 
 module.exports = Users;

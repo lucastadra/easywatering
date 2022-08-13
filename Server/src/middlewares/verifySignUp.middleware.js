@@ -22,4 +22,8 @@ checkDuplicateEmail = async (req, res, next) => {
   }
 };
 
-module.exports = checkDuplicateEmail;
+const verifySignUp = {
+    checkDuplicateEmail
+};
+
+module.exports = verifySignUp;
