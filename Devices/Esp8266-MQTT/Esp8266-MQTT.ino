@@ -1,16 +1,16 @@
-/* ------------------ EASYWATERING v1.1-beta ------------------
-*  
-*  Name: EasyWatering
-*  Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT
-*  Autor: Lucas Tadra & Gláucia Dias
-*  Subject: Disciplina de Projeto de Sistemas de Computação 2022/1
-*  Department: Departamento de Informática, Universidade Estadual de Ponta Grossa
-*  Info: Curso de Engenharia de Computação
-*  License: GNU General Public License v3.0 
-*  Date: 13/08/2022
-*  Current Version: v1.1-beta
-*  
-*/
+/* -------------------------------- EASYWATERING v1.1-beta -------------------------------- *
+*                                                                                           *
+*  Name: EasyWatering                                                                       *
+*  Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT     *
+*  Autor: Lucas Tadra & Gláucia Dias                                                        *
+*  Subject: Disciplina de Projeto de Sistemas de Computação 2022/1                          *
+*  Department: Departamento de Informática, Universidade Estadual de Ponta Grossa           *
+*  Info: Curso de Engenharia de Computação                                                  *
+*  License: GNU General Public License v3.0                                                 *
+*  Date: 13/08/2022                                                                         *
+*  Current Version: v1.1-beta                                                               *
+*                                                                                           *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 
 /*********** LIBS ***********/
 #include <DHT.h>
