@@ -1,26 +1,10 @@
 var express = require('express');
 const mqttRouter = express.Router();
+const mqttController = require('../controllers/mqtt.controller');
 
-const mqttHandler = require('../handlers/mqtt/mqttHandler');
-
-const mqttClient = new mqttHandler();
-mqttClient.connect();
-
-// Routes
-mqttRouter.post("/pub", function(req, res) {
-  mqttClient.sendMessage(req.body.topic, req.body.message);
-  res.status(200).send({message: `Published message: ${req.body.message} to topic ${req.body.topic}.`});
-});
-
-mqttRouter.post("/sub", function(req, res) {
-  mqttClient.subscribe(req.body.topic);
-  res.status(200).send({message: `Subscribed to topic: " ${req.body.topic}`});
-});
-
-mqttRouter.post("/unsub", function(req, res) {
-  mqttClient.unsubscribe(req.body.topic);
-  res.status(200).send({message: `Unsubscribed from topic: ${req.body.topic}`});
-});
-// TODO: MQTT Controller instead of calling handler directly
+//TODO: Middleware for ESPs
+mqttRouter.post('/pub', mqttController.Pub);
+mqttRouter.post('/sub', mqttController.Sub);
+mqttRouter.post('/unsub', mqttController.Unsub);
 
 module.exports = mqttRouter;

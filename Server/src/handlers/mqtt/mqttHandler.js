@@ -1,5 +1,4 @@
 const mqtt = require('mqtt');
-const teste = require('../../utils/parse2Json.js');
 require('dotenv').config()
 
 class MqttHandler {
@@ -12,7 +11,6 @@ class MqttHandler {
   }
  
   connect() {
-    // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
     this.mqttClient = mqtt.connect('mqtt://' + this.host, this.port,
       //{ username: this.username, password: this.password }
     );
@@ -32,13 +30,13 @@ class MqttHandler {
     this.mqttClient.subscribe('easywatering/data', {qos: 0});
     //this.mqttClient.subscribe('easywatering/signal', {qos: 0});
 
-    // When a message arrives, console.log it
-    this.mqttClient.on('message', function (topic, message) {
-      //this.#processMessage();
+    this.mqttClient.on('message', (topic, message) => {
       console.log(`[RECEIVED MESSAGE] Topic: ${topic} / Message: ${message.toString()}`);
-      var obj = JSON.parse(message.toString());
-      console.log('[JSON DATA]:',obj)
-      //TODO: process and save esp8266 data;
+
+      if (topic === 'easywatering/data') {
+        // Call method to parse data and store in DB;
+        this.#processMessage(message.toString());
+      }
     });
 
     this.mqttClient.on('close', () => {
@@ -64,8 +62,9 @@ class MqttHandler {
   }
 
   // Private method for processing mqtt sensor data
-  #processMessage() {
-    return null;
+  #processMessage(Data) {
+    var obj = JSON.parse(message.toString());
+    console.log('[JSON DATA]:',obj)
   }
 }
 
