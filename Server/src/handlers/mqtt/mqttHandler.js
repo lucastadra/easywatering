@@ -1,4 +1,5 @@
 const mqtt = require('mqtt');
+const teste = require('../../utils/parse2Json.js');
 require('dotenv').config()
 
 class MqttHandler {
@@ -9,7 +10,7 @@ class MqttHandler {
     //this.username = process.env.MQTT_USERNAME; // mqtt credentials if these are needed to connect
     //this.password = process.env.MQTT_PASSWORD;
   }
-  
+ 
   connect() {
     // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
     this.mqttClient = mqtt.connect('mqtt://' + this.host, this.port,
@@ -34,7 +35,9 @@ class MqttHandler {
     // When a message arrives, console.log it
     this.mqttClient.on('message', function (topic, message) {
       //this.#processMessage();
-      console.log(`New message: ${message.toString()} from topic: ${topic}`);
+      console.log(`[RECEIVED MESSAGE] Topic: ${topic} / Message: ${message.toString()}`);
+      var obj = JSON.parse(message.toString());
+      console.log('[JSON DATA]:',obj)
       //TODO: process and save esp8266 data;
     });
 
@@ -45,6 +48,7 @@ class MqttHandler {
 
   // Sends a mqtt message to topic: mytopic
   sendMessage(topic, message) {
+    console.log(`[SENT MESSAGE] Topic: ${topic} | Message: ${message.toString()}`);
     this.mqttClient.publish(topic.toString(), message.toString());
   }
 

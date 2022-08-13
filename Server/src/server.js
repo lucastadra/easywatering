@@ -7,14 +7,9 @@ var db = require('../config/database/sequelize.config');
 const app = express();
 require('dotenv').config();
 
-const corsOptions = {
-  origin: 'http://localhost:4200',
-  optionsSuccessStatus: 200,
-};
-
 db.sync().then(() => console.log('DB Sync complete.'))
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
