@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../../config/database/sequelize.config');
+const Esp = require("./esp.model");
 
-class Users extends Sequelize.Model {};
+class User extends Sequelize.Model {};
 
-Users.init({
+User.init({
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -20,10 +21,29 @@ Users.init({
         field: 'password'
         // Other attributes here
     },
+    status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+    },
     created_at: {
         type: Sequelize.DATE,
         field: 'created_at'
     }
 }, { sequelize: db, modelName: 'users' });
 
-module.exports = Users;
+/* 
+ *   One user has Many ESP's, 
+ *   but one Esp belongs to only one user 
+*/
+User.hasMany(Esp, {
+    foreignKey: 'user_id',
+    as: 'esps'
+});
+
+Esp.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user',
+    onDelete: 'CASCADE'
+});
+
+module.exports = User;
