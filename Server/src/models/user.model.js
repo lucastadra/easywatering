@@ -20,7 +20,10 @@ Users.init({
         field: 'password'
         // Other attributes here
     },
-    created_at: Sequelize.DATE
+    created_at: {
+        type: Sequelize.DATE,
+        field: 'created_at'
+    }
 }, { sequelize: db, modelName: 'users' });
 
 module.exports = Users;

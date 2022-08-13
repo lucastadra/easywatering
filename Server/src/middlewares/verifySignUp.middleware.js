@@ -16,6 +16,7 @@ checkDuplicateEmail = async (req, res, next) => {
     }
     next();
   } catch (error) {
+    console.log(error.message);
     return res.status(500).send({
       message: "Unable to validate Email!"
     });
