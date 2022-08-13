@@ -193,12 +193,16 @@ void loop() {
         /* Appends ESP_UUID to payload */
         data += ",\"id\":\"" + ESP_UUID + "\"}";
 
+        /* Loads the String into an charr array for PubSubClient Payload */
         int data_len = data.length() + 1;
         char char_arr[data_len];
         data.toCharArray(char_arr, data_len);
-        
+
+        /* Publish to the specified EasyWatering topic */
         clientMQTT.publish(MQTT_DATA_SUB_TOPIC, char_arr);
-        Serial.println("Data sent: " + data);
+        
+        if (DEBUG)
+          Serial.println("Data sent: " + data);
       }
     }
 }
