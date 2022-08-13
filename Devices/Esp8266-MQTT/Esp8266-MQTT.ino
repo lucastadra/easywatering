@@ -144,12 +144,13 @@ void connectMQTT() {
   }
 }
 
-String sendSensorData(){  
+String readSensorData(){  
     /* Sensors Var */
     int sh;
     float sph;
     float h = dht.readHumidity();
     float t = dht.readTemperature();
+    String sensorData = "";
     
     if (isnan(h) || isnan(t)) {
       if (DEBUG)
@@ -174,8 +175,9 @@ String sendSensorData(){
       sph = 100.00;
 
     /* Builds JSON string */
-    String data = "{\"temp\":" + String(t) + ", " + "\"umid\":" + String(h) + "," + "\"soil\":" + String(sph);
-    return data;
+    sensorData = "{\"temp\":" + String(t) + ", " + "\"umid\":" + String(h) + "," + "\"soil\":" + String(sph);
+    
+    return sensorData;
 }
   
 void loop() {
@@ -185,11 +187,13 @@ void loop() {
     }
     clientMQTT.loop();
 
+    /* Check if it's time to send new data */
     if (millis() - lastConnectionTime > TIME_INTERVAL) {
       lastConnectionTime = millis();
       String data = "";
-            
-      if ((data = sendSensorData()) != "") {
+
+      /* Check if data isn't empty */      
+      if ((data = readSensorData()) != "") {
         /* Appends ESP_UUID to payload */
         data += ",\"id\":\"" + ESP_UUID + "\"}";
 
