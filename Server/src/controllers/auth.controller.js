@@ -11,6 +11,7 @@ exports.Signup = async (req, res) => {
       full_name: req.body.full_name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
+      created_at: Date.now()
     });
 
     const result = user;
