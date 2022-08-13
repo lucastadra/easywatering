@@ -53,6 +53,7 @@ exports.Signin = async (req, res) => {
       id: user.id,
       full_name: user.full_name,
       email: user.email,
+      JWT: token
     });
   } catch (error) {
     return res.status(500).send({ message: error.message });

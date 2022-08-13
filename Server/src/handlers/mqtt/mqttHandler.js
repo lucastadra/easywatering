@@ -33,7 +33,7 @@ class MqttHandler {
 
     // When a message arrives, console.log it
     this.mqttClient.on('message', function (topic, message) {
-      this.#processMessage();
+      //this.#processMessage();
       console.log(`New message: ${message.toString()} from topic: ${topic}`);
       //TODO: process and save esp8266 data;
     });
