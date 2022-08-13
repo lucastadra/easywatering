@@ -54,7 +54,8 @@ class MqttHandler {
 
   unsubscribe(topic) {
     this.mqttClient.unsubscribe(topic, console.log, err => {
-      console.log('Error while unsubscribing: ', err);
+      if (err)
+        console.log('Error while unsubscribing: ', err);
     });
   }
 
