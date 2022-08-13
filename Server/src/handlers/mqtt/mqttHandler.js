@@ -4,14 +4,17 @@ require('dotenv').config()
 class MqttHandler {
   constructor() {
     this.mqttClient = null;
-    this.host = 'YOUR_HOST';
-    this.username = 'YOUR_USER'; // mqtt credentials if these are needed to connect
-    this.password = 'YOUR_PASSWORD';
+    this.host = process.env.MQTT_HOST;
+    this.port = process.env.MQTT_PORT;
+    //this.username = process.env.MQTT_USERNAME; // mqtt credentials if these are needed to connect
+    //this.password = process.env.MQTT_PASSWORD;
   }
   
   connect() {
     // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
-    this.mqttClient = mqtt.connect('mqtt://' + this.host, { username: this.username, password: this.password });
+    this.mqttClient = mqtt.connect('mqtt://' + this.host, this.port,
+      //{ username: this.username, password: this.password }
+    );
 
     // Mqtt error calback
     this.mqttClient.on('error', (err) => {
