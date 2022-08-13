@@ -21,6 +21,11 @@ Esp.init({
     }
 }, { sequelize: db, modelName: 'esps' });
 
+/* 
+ *   One ESP has Many Data's, 
+ *   but one Data belongs to only one ESP 
+*/
+
 Esp.hasMany(EspData, {
     foreignKey: 'esp_id',
     as: 'espData'

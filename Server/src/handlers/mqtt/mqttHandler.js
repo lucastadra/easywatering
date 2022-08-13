@@ -1,5 +1,8 @@
 const mqtt = require('mqtt');
-require('dotenv').config()
+require('dotenv').config();
+const ESPs = require ('../../models/esp.model');
+const ESPData = require ('../../models/espData.model');
+const User = require('../../models/user.model');
 
 class MqttHandler {
   constructor() {
@@ -61,10 +64,106 @@ class MqttHandler {
     });
   }
 
-  // Private method for processing mqtt sensor data
-  #processMessage(Data) {
-    var obj = JSON.parse(message.toString());
+  /*
+  * Receives: 
+  * Data: Unparsed ESP sensor reading as raw JSON String with {temp, umid, soil, id})
+  * 
+  * Returns:
+  * Nothing
+  */
+  async #processMessage(Data) {
+    var obj = JSON.parse(Data.toString());
     console.log('[JSON DATA]:',obj)
+    try {
+      if (obj && obj.id) {
+        const esp = await ESPs.findOne({where: {
+          id: obj.id,
+          status: true,
+        },
+          include: { 
+            model: User, 
+            as: 'user',
+            attributes: ['id', 'full_name', 'email']
+          },
+      });
+  
+        if (esp) {
+          // console.log(esp.toJSON());
+          await this.#saveData(obj, esp.toJSON());
+        } else {
+          throw new Error();
+        }
+      }
+    } catch (error) {
+      console.log("Error finding ESP: ", error.message);
+    }
+  }
+
+  /*
+  * Receives: 
+  * Data: Parsed ESP sensor reading as OBJ with {temp, umid, soil, id})
+  * ESP: ESP entity with related User
+  * 
+  * Returns:
+  * Nothing
+  */
+  async #saveData(Data, ESP) {
+    try {
+      if (Data && ESP.id) {
+        const bulkDataArr = [];
+
+        Object.entries(Data).forEach(([key, value]) => {
+          switch(key) {
+            case 'temp':
+              var newReading = {
+                value: value,
+                type: 1,
+                obs: 'Air Temperature',
+                created_at: Date.now(),
+                esp_id: Data.id
+              };
+
+              bulkDataArr.push(newReading);
+              break;
+            case 'umid':
+              var newReading = {
+                value: value,
+                type: 2,
+                obs: 'Air Humidity',
+                created_at: Date.now(),
+                esp_id: Data.id
+              };
+
+              bulkDataArr.push(newReading);
+              break;
+            case 'soil':
+              var newReading = {
+                value: value,
+                type: 3,
+                obs: 'Soil Moisture',
+                created_at: Date.now(),
+                esp_id: Data.id
+              };
+
+              bulkDataArr.push(newReading);
+              break;
+            default:
+              break;
+          }
+        })
+
+        const result = await ESPData.bulkCreate(bulkDataArr);
+
+        if (result) {
+          console.log("Sucessfully inserted for ESP: ", ESP.id);
+          // console.log(result);
+        } else {
+          throw new Error();
+        }
+      }
+    } catch (error) {
+      console.log("Error saving data: ", error.message);
+    }
   }
 }
 

@@ -27,7 +27,8 @@ User.init({
     },
     created_at: {
         type: Sequelize.DATE,
-        field: 'created_at'
+        field: 'created_at',
+        defaultValue: Date.now()
     }
 }, { sequelize: db, modelName: 'users' });
 

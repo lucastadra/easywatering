@@ -1,7 +1,15 @@
 const mqttHandler = require('../handlers/mqtt/mqttHandler');
 
 const mqttClient = new mqttHandler();
-mqttClient.connect();
+
+/* MQTT Connection IIFE */
+(async () => {
+    try {
+        await mqttClient.connect();
+    } catch (error) {
+        console.log(error.message);
+    }
+})();
 
 // Routes
 exports.Pub = async (req, res) => {

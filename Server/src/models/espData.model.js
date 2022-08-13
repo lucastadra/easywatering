@@ -25,7 +25,6 @@ EspData.init({
         allowNull: true,
         field: 'obs'
     },
-    alias: Sequelize.STRING,
     created_at: {
         type: Sequelize.DATE,
         field: 'created_at'
