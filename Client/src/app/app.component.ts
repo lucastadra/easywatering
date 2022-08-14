@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { StorageService } from './services/storage.service';
-import { AuthService } from './services/auth.service';
+import { StorageService } from './services/storage/storage.service';
+import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -20,8 +20,9 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
-    if(this.storageService.isTokenExpired()){
-      Swal.fire('Sua sessão expirou.', '', 'info');
+
+    if(!this.authService.isTokenExpired()){
+      Swal.fire('Faça login para acessar o sistema.', '', 'info');
       this.router.navigate(['login']);
     }
 

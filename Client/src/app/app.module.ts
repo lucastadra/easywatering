@@ -11,7 +11,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 
 import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { 
+  AuthGuardService as AuthGuard 
+} from './guards/auth/auth-guard.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,9 +28,10 @@ import { httpInterceptorProviders } from './helpers/http.interceptor';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

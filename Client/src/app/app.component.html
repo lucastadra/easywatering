@@ -3,16 +3,16 @@
     <a href="#" class="navbar-brand">Easy Watering</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Home </a>
+        <a href="/home" class="nav-link" routerLink="home">Início </a>
       </li>
       <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
+        <a href="/profile" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Meu Perfil</a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+        <a href="/register" class="nav-link" routerLink="register">Cadastrar</a>
       </li>
       <li class="nav-item">
         <a href="/login" class="nav-link" routerLink="login">Entrar</a>
@@ -20,9 +20,9 @@
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a href="/profile" class="nav-link" routerLink="profile">{{ full_name }}</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a href class="nav-link" (click)="logout()">LogOut</a>
       </li>

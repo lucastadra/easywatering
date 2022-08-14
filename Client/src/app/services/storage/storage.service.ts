@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import jwt_decode from 'jwt-decode';
+import { AuthService } from '../auth/auth.service';
 
 const USER_KEY = 'auth-user';
 
@@ -39,37 +39,8 @@ export class StorageService {
     return false;
   }
 
-  private getAuthorizationToken() {
-    const token = window.localStorage.getItem(this.JWT_TOKEN);
+  public getAuthorizationToken() {
+    const token = window.sessionStorage.getItem(this.JWT_TOKEN);
     return token;
-  }
-
-  private getTokenExpirationDate(token: string): Date {
-    const decoded: any = jwt_decode(token);
-
-    if (decoded.exp === undefined) {
-      return new Date(0);
-    }
-
-    const date = new Date(0);
-    date.setUTCSeconds(decoded.exp);
-    return date;
-  }
-
-  public isTokenExpired(): boolean {
-    const token = this.getAuthorizationToken();
-
-    console.log("Token: ", token);
-    if (!token) {
-      return true;
-    }
-
-    const date = this.getTokenExpirationDate(token);
-
-    if (date === undefined) {
-      return false;
-    }
-
-    return !(date.valueOf() > new Date().valueOf());
   }
 }
