@@ -5,7 +5,7 @@ const mqttClient = new mqttHandler();
 /* MQTT Connection IIFE */
 (async () => {
     try {
-        await mqttClient.connect();
+        mqttClient.connect();
     } catch (error) {
         console.log(error.message);
     }

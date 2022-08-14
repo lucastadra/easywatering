@@ -118,7 +118,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 1,
-                obs: 'Air Temperature',
+                desc: 'Air Temperature',
                 created_at: Date.now(),
                 esp_id: Data.id
               };
@@ -129,7 +129,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 2,
-                obs: 'Air Humidity',
+                desc: 'Air Humidity',
                 created_at: Date.now(),
                 esp_id: Data.id
               };
@@ -140,7 +140,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 3,
-                obs: 'Soil Moisture',
+                desc: 'Soil Moisture',
                 created_at: Date.now(),
                 esp_id: Data.id
               };

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../../config/database/sequelize.config');
-const EspData = require('./espData.model');
+const ESPData = require('./espData.model');
 
 class Esp extends Sequelize.Model {};
 
@@ -26,12 +26,12 @@ Esp.init({
  *   but one Data belongs to only one ESP 
 */
 
-Esp.hasMany(EspData, {
+Esp.hasMany(ESPData, {
     foreignKey: 'esp_id',
     as: 'espData'
 });
 
-EspData.belongsTo(Esp, {
+ESPData.belongsTo(Esp, {
     foreignKey: 'esp_id',
     as: 'esp',
     onDelete: 'CASCADE'

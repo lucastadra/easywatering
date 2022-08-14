@@ -20,10 +20,10 @@ EspData.init({
         allowNull: false,
         field: 'type'
     },
-    obs: {
+    desc: {
         type: Sequelize.TEXT,
         allowNull: true,
-        field: 'obs'
+        field: 'desc'
     },
     created_at: {
         type: Sequelize.DATE,
