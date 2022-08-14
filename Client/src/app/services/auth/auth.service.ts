@@ -8,7 +8,6 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -44,7 +43,6 @@ export class AuthService {
   public isTokenExpired(): boolean {
     const token = this.storageService.getAuthorizationToken();
 
-    console.log("Token: ", token);
     if (!token) {
       return false;
     }

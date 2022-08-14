@@ -6,7 +6,10 @@
         <a href="/home" class="nav-link" routerLink="home">Início </a>
       </li>
       <li class="nav-item">
-        <a href="/profile" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Meu Perfil</a>
+        <a href="/profile" class="nav-link" *ngIf="isLoggedIn" routerLink="profile">Meu Perfil</a>
+      </li>
+      <li class="nav-item">
+        <a href="/board/data" class="nav-link" *ngIf="isLoggedIn" routerLink="board/data">Dados</a>
       </li>
     </ul>
 
@@ -24,7 +27,7 @@
         <a href="/profile" class="nav-link" routerLink="profile">{{ full_name }}</a>
       </li> -->
       <li class="nav-item">
-        <a href class="nav-link" (click)="logout()">LogOut</a>
+        <a href class="nav-link" (click)="logout()">Sair</a>
       </li>
     </ul>
   </nav>

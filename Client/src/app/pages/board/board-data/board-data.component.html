@@ -1,0 +1,12 @@
+<div class="container">
+    <header class="jumbotron my-5">
+        <div>
+            <ul *ngFor="let data of ESPData">
+                <li *ngIf="data.type === 1">Type: {{ data.desc }}<br>Reading: {{ data.value }}ºC<br>Date: {{ data.created_at }}</li>
+                <li *ngIf="data.type === 2 || data.type === 3">Type: {{ data.desc }}<br>Reading: {{ data.value }}%<br>Date: {{ data.created_at }}</li>
+                <!-- <li *ngIf="data.type === 3">Type: {{ data.desc }}<br>Reading: {{ data.value }}%<br>Date: {{ data.created_at }}</li> -->
+            </ul>
+        </div>
+    </header>
+</div>
+  
