@@ -16,11 +16,11 @@ export class AuthService {
     return this.http.post('/api/auth/signin', { email, password });
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
+  register(full_name: string, email: string, password: string): Observable<any> {
     return this.http.post(
       '/api/signup',
       {
-        username,
+        full_name,
         email,
         password,
       },

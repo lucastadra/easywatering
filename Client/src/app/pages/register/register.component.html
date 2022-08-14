@@ -13,25 +13,25 @@
       novalidate
     >
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="full_name">Nome Completo</label>
         <input
           type="text"
           class="form-control"
-          name="username"
-          [(ngModel)]="form.username"
+          name="full_name"
+          [(ngModel)]="form.full_name"
           required
-          minlength="3"
-          maxlength="20"
-          #username="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+          minlength="2"
+          maxlength="30"
+          #full_name="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && full_name.errors }"
         />
-        <div class="invalid-feedback" *ngIf="username.errors && f.submitted">
-          <div *ngIf="username.errors['required']">Username is required</div>
-          <div *ngIf="username.errors['minlength']">
-            Username must be at least 3 characters
+        <div class="invalid-feedback" *ngIf="full_name.errors && f.submitted">
+          <div *ngIf="full_name.errors['required']">O Nome é obrigatório</div>
+          <div *ngIf="full_name.errors['minlength']">
+            O nome não pode conter menos de 2 caracteres
           </div>
-          <div *ngIf="username.errors['maxlength']">
-            Username must be at most 20 characters
+          <div *ngIf="full_name.errors['maxlength']">
+            O nome não pode conter mais de 30 caracteres
           </div>
         </div>
       </div>
@@ -48,9 +48,9 @@
           [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
         />
         <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
-          <div *ngIf="email.errors['required']">Email is required</div>
+          <div *ngIf="email.errors['required']">O Email é obrigatório</div>
           <div *ngIf="email.errors['email']">
-            Email must be a valid email address
+            O Email é inválido
           </div>
         </div>
       </div>
@@ -67,23 +67,23 @@
           [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
         />
         <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
-          <div *ngIf="password.errors['required']">Password is required</div>
+          <div *ngIf="password.errors['required']">A Senha é obrigatória</div>
           <div *ngIf="password.errors['minlength']">
-            Password must be at least 6 characters
+            A Senha precisa conter mais de 6 caracteres
           </div>
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
+        <button class="btn btn-primary btn-block">Enviar</button>
       </div>
 
       <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-        Signup failed!<br />{{ errorMessage }}
+        Não foi possível registrar: <br />{{ errorMessage }}
       </div>
     </form>
 
     <div class="alert alert-success" *ngIf="isSuccessful">
-      Your registration is successful!
+      Registrado com sucesso!
     </div>
   </div>
 </div>

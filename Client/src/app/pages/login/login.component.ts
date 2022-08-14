@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
-import { StorageService } from '../_services/storage.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,18 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   full_name: string = '';
 
-  constructor(private authService: AuthService, private storageService: StorageService) { }
+  constructor(
+    private authService: AuthService, 
+    private storageService: StorageService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       this.full_name = this.storageService.getUser().full_name;
+
+      this.redirect();
     }
   }
 
@@ -37,6 +44,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.full_name = this.storageService.getUser().full_name;
         this.reloadPage();
+
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -47,5 +55,11 @@ export class LoginComponent implements OnInit {
 
   reloadPage(): void {
     window.location.reload();
+  }
+
+  redirect(): void {
+    setTimeout(() =>{
+      this.router.navigate(['home']);
+    }, 1500)
   }
 }

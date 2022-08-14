@@ -5,12 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
-import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { httpInterceptorProviders } from './helpers/http.interceptor';
 
 @NgModule({
   declarations: [
