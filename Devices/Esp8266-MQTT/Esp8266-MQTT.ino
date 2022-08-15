@@ -1,18 +1,18 @@
 /* -------------------------------- EASYWATERING v2.1-beta -------------------------------- *
 *                                                                                           *
-*  Name: EasyWatering                                                                       *
-*  Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT     *
-*  Autor: Lucas Tadra & Gláucia Dias                                                        *
-*  Subject: Disciplina de Projeto de Sistemas de Computação 2022/1                          *
-*  Department: Departamento de Informática, Universidade Estadual de Ponta Grossa           *
-*  Info: Curso de Engenharia de Computação                                                  *
-*  License: GNU General Public License v3.0                                                 *
-*  Date: 13/08/2022                                                                         *
-*  Current Version: v2.1-beta                                                               *
+   Name: EasyWatering
+   Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT
+   Autor: Lucas Tadra & Gláucia Dias
+   Subject: Disciplina de Projeto de Sistemas de Computação 2022/1
+   Department: Departamento de Informática, Universidade Estadual de Ponta Grossa
+   Info: Curso de Engenharia de Computação
+   License: GNU General Public License v3.0
+   Date: 13/08/2022
+   Current Version: v2.1-beta
 *                                                                                           *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-/*********** LIBS ***********/
+  /*********** LIBS ***********/
 #include <DHT.h>
 #include <PubSubClient.h>
 #include <Ticker.h>
@@ -51,7 +51,7 @@ void setup() {
   /* Serial */
   if (DEBUG)
     Serial.begin(115200);
-    Serial.println("\nInstance ID: " + String(ESP_UUID));
+  Serial.println("\nInstance ID: " + String(ESP_UUID));
 
   /* Pin Modes and States */
   lastConnectionTime = 0;
@@ -75,7 +75,7 @@ void setup() {
     ESP.restart();
     delay(1000);
   }
-  
+
   if (DEBUG) {
     Serial.println("WiFi Connected.");
     Serial.print("Instance IP: ");
@@ -83,7 +83,7 @@ void setup() {
     Serial.print("\nMAC Address: ");
     Serial.print(WiFi.macAddress());
   }
-  
+
   /* MAC Config */
   //strMacAddress = WiFi.macAddress();
   //strMacAddress.toCharArray(macAddress, 6);
@@ -93,9 +93,9 @@ void setup() {
   /* MQTT Connection */
   clientMQTT.setServer(MQTT_BROKER_URL, MQTT_BROKER_PORT);
   clientMQTT.setCallback(mqttCB);
-  
+
   ticker.detach();
-  
+
   digitalWrite(WIFI_LED, HIGH);
 }
 
@@ -112,7 +112,7 @@ void wifiManagerCB(WiFiManager *wiFiManager) {
 void mqttCB(char* topic, byte* payload, unsigned int length) {
   String payloadStr = "";
 
-  /* Loads Payload into a single string */ 
+  /* Loads Payload into a single string */
   for (int i = 0; i < length; i++) {
     payloadStr = payloadStr + (char)payload[i];
   }
@@ -125,21 +125,21 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
   }
 
   /* Check if any pump command was received */
-  if (String(topic) == String(MQTT_PUMP_SUB_TOPIC)) {  
-    if(payloadStr == "ON") {
+  if (String(topic) == String(MQTT_PUMP_SUB_TOPIC)) {
+    if (payloadStr == "ON") {
       /* Registers when pump turns on */
       unsigned long startTime = millis();
-      
+
       if (DEBUG)
         Serial.println("\nTurning Water Pump ON");
-        
+
       digitalWrite(RELAYPIN, HIGH);
       delay(PUMP_ON_INTERVAL);
-      digitalWrite(RELAYPIN, LOW);    
-    } else if(payloadStr == "OFF") {
+      digitalWrite(RELAYPIN, LOW);
+    } else if (payloadStr == "OFF") {
       if (DEBUG)
         Serial.println("Turning Water Pump OFF");
-        
+
       digitalWrite(RELAYPIN, LOW);
     }
   }
@@ -149,12 +149,12 @@ void connectMQTT() {
   int tries = 0;
 
   while (!clientMQTT.connected() && tries < 10) {
-    delay (500);    
+    delay (500);
     tries ++;
   }
 
   if (clientMQTT.connect(macAddress)) {
-    if (DEBUG) 
+    if (DEBUG)
       Serial.println("\nMQTT connected.");
 
     /* Subscribes to main topics */
@@ -166,56 +166,56 @@ void connectMQTT() {
   }
 }
 
-String readSensorData(){  
-    /* Sensors Var */
-    int sh;
-    float sph;
-    float h = dht.readHumidity();
-    float t = dht.readTemperature();
-    String sensorData = "";
-    
-    if (isnan(h) || isnan(t)) {
-      if (DEBUG)
-        Serial.println(F("Failed to read from DHT sensor!"));
-        
-      return "";
-    }
+String readSensorData() {
+  /* Sensors Var */
+  int sh;
+  float sph;
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  String sensorData = "";
 
-    sh = analogRead(SMPIN);
+  if (isnan(h) || isnan(t)) {
+    if (DEBUG)
+      Serial.println(F("Failed to read from DHT sensor!"));
 
-    if (isnan(sh) || sh == 0) {
-      if (DEBUG)
-        Serial.println(F("Failed to read from Soil sensor!"));
-        
-      return "";
-    }
-    
-    /* Soil Moisture Measurement | Multiplied by ~1.83 empirical correction factor */
-    sph = ( 100 - ( (sh/1024.00) * 100 ) ) * 1.825555;
+    return "";
+  }
 
-    if (sph > 100)
-      sph = 100.00;
+  sh = analogRead(SMPIN);
 
-    /* Builds JSON string */
-    sensorData = "{\"temp\": " + String(t) + ", " + "\"umid\": " + String(h) + "," + " \"soil\": " + String(sph);
-    
-    return sensorData;
+  if (isnan(sh) || sh == 0) {
+    if (DEBUG)
+      Serial.println(F("Failed to read from Soil sensor!"));
+
+    return "";
+  }
+
+  /* Soil Moisture Measurement | Multiplied by ~1.83 empirical correction factor */
+  sph = ( 100 - ( (sh / 1024.00) * 100 ) ) * 1.825555;
+
+  if (sph > 100)
+    sph = 100.00;
+
+  /* Builds JSON string */
+  sensorData = "{\"temp\": " + String(t) + ", " + "\"umid\": " + String(h) + "," + " \"soil\": " + String(sph);
+
+  return sensorData;
 }
 
 void publishSensorData() {
   String data = "";
-  /* Check if data is not empty */      
+  /* Check if data is not empty */
   if ((data = readSensorData()) != "") {
     /* Appends ESP_UUID to payload */
     data += ", \"id\": \"" + ESP_UUID + "\"}";
-  
+
     /* Loads the String into an charr array for PubSubClient Payload */
     int data_len = data.length() + 1;
     char char_arr[data_len];
     data.toCharArray(char_arr, data_len);
     /* Publish to the specified EasyWatering topic */
     clientMQTT.publish(MQTT_DATA_SUB_TOPIC, char_arr);
-    
+
     digitalWrite(DATA_LED, HIGH);
     if (DEBUG) {
       Serial.print("\n[MESSAGE SENT]: ");
@@ -231,15 +231,15 @@ void publishSensorData() {
 
 /*********** LOOP ***********/
 void loop() {
-  
-    if (!clientMQTT.connected()) {
-      connectMQTT();
-    }
-    clientMQTT.loop();
 
-    /* Check if it's time to send new data */
-    if (millis() - lastConnectionTime > TIME_INTERVAL) {
-      lastConnectionTime = millis();
-      publishSensorData();
-    }
+  if (!clientMQTT.connected()) {
+    connectMQTT();
+  }
+  clientMQTT.loop();
+
+  /* Check if it's time to send new data */
+  if (millis() - lastConnectionTime > TIME_INTERVAL) {
+    lastConnectionTime = millis();
+    publishSensorData();
+  }
 }
