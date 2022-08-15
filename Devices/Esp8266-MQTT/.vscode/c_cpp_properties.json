@@ -49,6 +49,7 @@
                 "C:\\Users\\lucas\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\variants\\nodemcu",
                 "C:\\Users\\lucas\\Documents\\Arduino\\libraries\\DHT_sensor_library",
                 "C:\\Users\\lucas\\Documents\\Arduino\\libraries\\PubSubClient\\src",
+                "C:\\Users\\lucas\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\libraries\\Ticker\\src",
                 "C:\\Users\\lucas\\Documents\\Arduino\\libraries\\WiFiManager",
                 "C:\\Users\\lucas\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\libraries\\ESP8266WiFi\\src",
                 "C:\\Users\\lucas\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\libraries\\ESP8266WebServer\\src",

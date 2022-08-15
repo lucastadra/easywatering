@@ -17,14 +17,14 @@
 #include <PubSubClient.h>
 #include <Ticker.h>
 #include <WiFiManager.h>
-
 /*********** PRE PROCESSORS ***********/
+#define DEBUG true
 #define DHTPIN 12
 #define DHTTYPE DHT22
-#define TIME_INTERVAL 10000
 #define LED LED_BUILTIN
-#define DEBUG true
-
+#define RELAYPIN 5
+#define TIME_INTERVAL 10000 // 10 seconds
+#define PUMP_ON_INTERVAL 5000 // 2 seconds
 /*********** CONST ***********/
 const String ESP_UUID = "6f9629a8-8827-44d2-94ed-cad4b6fe9154";
 const int SMPin = A0;
@@ -32,20 +32,18 @@ const int SMPin = A0;
 const char* MQTT_BROKER_URL = "192.168.31.61";
 const int MQTT_BROKER_PORT = 1883;
 const char* MQTT_DATA_SUB_TOPIC = "easywatering/data";
-const char* MQTT_COMMAND_SUB_TOPIC = "easywatering/command";
-
+const char* MQTT_PUMP_SUB_TOPIC = "easywatering/pump/6f9629a8-8827-44d2-94ed-cad4b6fe9154";
 /*********** VAR ***********/
 long lastConnectionTime;
 char macAddress[6];
 String strMacAddress;
-
+boolean PUMP_STATE = false;
 /*********** OBJECTS/INSTANCES ***********/
 DHT dht(DHTPIN, DHTTYPE);
 WiFiClient clientWIFI;
 PubSubClient clientMQTT(clientWIFI);
 WiFiManager wiFiManager;
 Ticker ticker;
-
 /*********** SETUP ***********/
 void setup() {
   /* Serial */
@@ -54,6 +52,7 @@ void setup() {
   /* Pin Modes and States */
   lastConnectionTime = 0;
   pinMode(LED, OUTPUT);
+  pinMode(RELAYPIN, OUTPUT);
   WiFi.mode(WIFI_STA);
 
   dht.begin();  //Starts DHT Sensor
@@ -106,6 +105,7 @@ void wifiManagerCB(WiFiManager *wiFiManager) {
 void mqttCB(char* topic, byte* payload, unsigned int length) {
   String payloadStr = "";
 
+  /* Loads Payload into a single string */ 
   for (int i = 0; i < length; i++) {
     payloadStr = payloadStr + (char)payload[i];
   }
@@ -116,6 +116,26 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
     Serial.println(" / Message: ");
     Serial.println("Payload String: ");
     Serial.println(payloadStr);
+  }
+
+  /* Check if any pump command was received */
+  if (String(topic) == String(MQTT_PUMP_SUB_TOPIC)) {  
+    if(payloadStr == "ON") {
+      /* Registers when pump turns on */
+      unsigned long startTime = millis();
+      
+      if (DEBUG)
+        Serial.println("Turning Water Pump ON");
+        
+      digitalWrite(RELAYPIN, HIGH);
+      delay(PUMP_ON_INTERVAL);
+      digitalWrite(RELAYPIN, LOW);    
+    } else if(payloadStr == "OFF") {
+      if (DEBUG)
+        Serial.println("Turning Water Pump OFF");
+        
+      digitalWrite(RELAYPIN, LOW);
+    }
   }
 }
 
@@ -137,7 +157,7 @@ void connectMQTT() {
 
     /* Subscribes to main topics */
     //clientMQTT.subscribe(MQTT_DATA_SUB_TOPIC);
-    clientMQTT.subscribe(MQTT_COMMAND_SUB_TOPIC);
+    clientMQTT.subscribe(MQTT_PUMP_SUB_TOPIC);
   } else {
     if (DEBUG)
       Serial.println("Failed to connect to MQTT.");
@@ -179,7 +199,32 @@ String readSensorData(){
     
     return sensorData;
 }
+
+void publishSensorData() {
+  String data = "";
+  /* Check if data is not empty */      
+  if ((data = readSensorData()) != "") {
+    /* Appends ESP_UUID to payload */
+    data += ",\"id\":\"" + ESP_UUID + "\"}";
   
+    /* Loads the String into an charr array for PubSubClient Payload */
+    int data_len = data.length() + 1;
+    char char_arr[data_len];
+    data.toCharArray(char_arr, data_len);
+  
+    /* Publish to the specified EasyWatering topic */
+    clientMQTT.publish(MQTT_DATA_SUB_TOPIC, char_arr);
+    
+    if (DEBUG)
+      Serial.println("Data sent: " + data);
+  }
+}
+
+void changePumpState() {
+  digitalWrite(RELAYPIN, !PUMP_STATE);
+}
+
+/*********** LOOP ***********/
 void loop() {
   
     if (!clientMQTT.connected()) {
@@ -190,23 +235,6 @@ void loop() {
     /* Check if it's time to send new data */
     if (millis() - lastConnectionTime > TIME_INTERVAL) {
       lastConnectionTime = millis();
-      String data = "";
-
-      /* Check if data isn't empty */      
-      if ((data = readSensorData()) != "") {
-        /* Appends ESP_UUID to payload */
-        data += ",\"id\":\"" + ESP_UUID + "\"}";
-
-        /* Loads the String into an charr array for PubSubClient Payload */
-        int data_len = data.length() + 1;
-        char char_arr[data_len];
-        data.toCharArray(char_arr, data_len);
-
-        /* Publish to the specified EasyWatering topic */
-        clientMQTT.publish(MQTT_DATA_SUB_TOPIC, char_arr);
-        
-        if (DEBUG)
-          Serial.println("Data sent: " + data);
-      }
+      publishSensorData();
     }
 }
