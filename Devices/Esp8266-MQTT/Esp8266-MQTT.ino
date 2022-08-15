@@ -1,4 +1,4 @@
-/* -------------------------------- EASYWATERING v1.1-beta -------------------------------- *
+/* -------------------------------- EASYWATERING v2.1-beta -------------------------------- *
 *                                                                                           *
 *  Name: EasyWatering                                                                       *
 *  Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT     *
@@ -8,7 +8,7 @@
 *  Info: Curso de Engenharia de Computação                                                  *
 *  License: GNU General Public License v3.0                                                 *
 *  Date: 13/08/2022                                                                         *
-*  Current Version: v1.1-beta                                                               *
+*  Current Version: v2.1-beta                                                               *
 *                                                                                           *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 
