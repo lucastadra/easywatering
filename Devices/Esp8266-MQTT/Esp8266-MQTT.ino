@@ -21,13 +21,15 @@
 #define DEBUG true
 #define DHTPIN 12
 #define DHTTYPE DHT22
-#define LED LED_BUILTIN
-#define RELAYPIN 5
+#define RELAYPIN 0
 #define TIME_INTERVAL 10000 // 10 seconds
 #define PUMP_ON_INTERVAL 5000 // 2 seconds
+#define WIFI_LED 16
+#define DATA_LED 5
+#define ERROR_LED 4
+#define SMPIN A0
 /*********** CONST ***********/
 const String ESP_UUID = "6f9629a8-8827-44d2-94ed-cad4b6fe9154";
-const int SMPin = A0;
 /* MQTT Config */
 const char* MQTT_BROKER_URL = "192.168.31.61";
 const int MQTT_BROKER_PORT = 1883;
@@ -47,11 +49,15 @@ Ticker ticker;
 /*********** SETUP ***********/
 void setup() {
   /* Serial */
-  Serial.begin(115200);
+  if (DEBUG)
+    Serial.begin(115200);
+    Serial.println("\nInstance ID: " + String(ESP_UUID));
 
   /* Pin Modes and States */
   lastConnectionTime = 0;
-  pinMode(LED, OUTPUT);
+  pinMode(WIFI_LED, OUTPUT);
+  pinMode(DATA_LED, OUTPUT);
+  pinMode(ERROR_LED, OUTPUT);
   pinMode(RELAYPIN, OUTPUT);
   WiFi.mode(WIFI_STA);
 
@@ -63,23 +69,24 @@ void setup() {
   wiFiManager.setAPCallback(wifiManagerCB);
 
   if (!wiFiManager.autoConnect("EasyWatering-Manager")) {
-    Serial.println("Failed to connect to Wi-Fi.\n");
+    if (DEBUG)
+      Serial.println("Failed to connect to Wi-Fi.\n");
 
     ESP.restart();
     delay(1000);
   }
   
   if (DEBUG) {
-    Serial.println("WiFi Connected.\n");
-    Serial.println("Instance IP: ");
-    Serial.println(WiFi.localIP());
-    Serial.println("MAC Address:");
-    Serial.println(WiFi.macAddress());
+    Serial.println("WiFi Connected.");
+    Serial.print("Instance IP: ");
+    Serial.print(WiFi.localIP());
+    Serial.print("\nMAC Address: ");
+    Serial.print(WiFi.macAddress());
   }
   
   /* MAC Config */
-  strMacAddress = WiFi.macAddress();
-  strMacAddress.toCharArray(macAddress, 6);
+  //strMacAddress = WiFi.macAddress();
+  //strMacAddress.toCharArray(macAddress, 6);
 
   ticker.detach();
 
@@ -89,17 +96,17 @@ void setup() {
   
   ticker.detach();
   
-  digitalWrite(LED, LOW);
+  digitalWrite(WIFI_LED, HIGH);
 }
 
 /*********** CALLBACKS ***********/
-void ledBlink() {
-  digitalWrite(LED, !digitalRead(LED));
+void wifiLedBlink() {
+  digitalWrite(WIFI_LED, !digitalRead(WIFI_LED));
 }
 
 void wifiManagerCB(WiFiManager *wiFiManager) {
   Serial.println("Settings mode ON.");
-  ticker.attach(0.2, ledBlink);
+  ticker.attach(0.2, wifiLedBlink);
 }
 
 void mqttCB(char* topic, byte* payload, unsigned int length) {
@@ -111,11 +118,10 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
   }
 
   if (DEBUG) {
-    Serial.println("[RECEIVED MESSAGE] Topic: ");
-    Serial.println(topic);
-    Serial.println(" / Message: ");
-    Serial.println("Payload String: ");
-    Serial.println(payloadStr);
+    Serial.print("[RECEIVED MESSAGE]: Topic: ");
+    Serial.print(topic);
+    Serial.print(" / Message: ");
+    Serial.print(payloadStr);
   }
 
   /* Check if any pump command was received */
@@ -125,7 +131,7 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
       unsigned long startTime = millis();
       
       if (DEBUG)
-        Serial.println("Turning Water Pump ON");
+        Serial.println("\nTurning Water Pump ON");
         
       digitalWrite(RELAYPIN, HIGH);
       delay(PUMP_ON_INTERVAL);
@@ -143,17 +149,13 @@ void connectMQTT() {
   int tries = 0;
 
   while (!clientMQTT.connected() && tries < 10) {
-    delay (500);
-
-    if (DEBUG)
-      Serial.print(".");
-    
+    delay (500);    
     tries ++;
   }
 
   if (clientMQTT.connect(macAddress)) {
     if (DEBUG) 
-      Serial.println("MQTT connected.");
+      Serial.println("\nMQTT connected.");
 
     /* Subscribes to main topics */
     //clientMQTT.subscribe(MQTT_DATA_SUB_TOPIC);
@@ -179,7 +181,7 @@ String readSensorData(){
       return "";
     }
 
-    sh = analogRead(SMPin);
+    sh = analogRead(SMPIN);
 
     if (isnan(sh) || sh == 0) {
       if (DEBUG)
@@ -195,7 +197,7 @@ String readSensorData(){
       sph = 100.00;
 
     /* Builds JSON string */
-    sensorData = "{\"temp\":" + String(t) + ", " + "\"umid\":" + String(h) + "," + "\"soil\":" + String(sph);
+    sensorData = "{\"temp\": " + String(t) + ", " + "\"umid\": " + String(h) + "," + " \"soil\": " + String(sph);
     
     return sensorData;
 }
@@ -205,23 +207,26 @@ void publishSensorData() {
   /* Check if data is not empty */      
   if ((data = readSensorData()) != "") {
     /* Appends ESP_UUID to payload */
-    data += ",\"id\":\"" + ESP_UUID + "\"}";
+    data += ", \"id\": \"" + ESP_UUID + "\"}";
   
     /* Loads the String into an charr array for PubSubClient Payload */
     int data_len = data.length() + 1;
     char char_arr[data_len];
     data.toCharArray(char_arr, data_len);
-  
     /* Publish to the specified EasyWatering topic */
     clientMQTT.publish(MQTT_DATA_SUB_TOPIC, char_arr);
     
-    if (DEBUG)
-      Serial.println("Data sent: " + data);
-  }
-}
+    digitalWrite(DATA_LED, HIGH);
+    if (DEBUG) {
+      Serial.print("\n[MESSAGE SENT]: ");
+      Serial.print("Topic: ");
+      Serial.print(MQTT_DATA_SUB_TOPIC);
+      Serial.print(" / Message: " + data);
+    }
 
-void changePumpState() {
-  digitalWrite(RELAYPIN, !PUMP_STATE);
+    delay(250);
+    digitalWrite(DATA_LED, LOW);
+  }
 }
 
 /*********** LOOP ***********/
