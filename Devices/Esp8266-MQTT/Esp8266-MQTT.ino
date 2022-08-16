@@ -21,12 +21,12 @@
 #define DEBUG true
 #define DHTPIN 12
 #define DHTTYPE DHT22
-#define RELAYPIN 0
+#define RELAYPIN 4
 #define TIME_INTERVAL 10000 // 10 seconds
 #define PUMP_ON_INTERVAL 5000 // 2 seconds
 #define WIFI_LED 16
 #define DATA_LED 5
-#define ERROR_LED 4
+#define ERROR_LED 0
 #define SMPIN A0
 /*********** CONST ***********/
 const String ESP_UUID = "6f9629a8-8827-44d2-94ed-cad4b6fe9154";
@@ -49,9 +49,10 @@ Ticker ticker;
 /*********** SETUP ***********/
 void setup() {
   /* Serial */
-  if (DEBUG)
+  if (DEBUG) {
     Serial.begin(115200);
-  Serial.println("\nInstance ID: " + String(ESP_UUID));
+    Serial.println("\nInstance ID: " + String(ESP_UUID));
+  }
 
   /* Pin Modes and States */
   lastConnectionTime = 0;
@@ -118,7 +119,7 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
   }
 
   if (DEBUG) {
-    Serial.print("[RECEIVED MESSAGE]: Topic: ");
+    Serial.print("\n[RECEIVED MESSAGE]: Topic: ");
     Serial.print(topic);
     Serial.print(" / Message: ");
     Serial.print(payloadStr);
@@ -218,10 +219,10 @@ void publishSensorData() {
 
     digitalWrite(DATA_LED, HIGH);
     if (DEBUG) {
-      Serial.print("\n[MESSAGE SENT]: ");
+      Serial.print("[MESSAGE SENT]: ");
       Serial.print("Topic: ");
       Serial.print(MQTT_DATA_SUB_TOPIC);
-      Serial.print(" / Message: " + data);
+      Serial.print(" / Message: " + data + "\n");
     }
 
     delay(250);
