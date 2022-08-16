@@ -18,6 +18,8 @@ import { BoardDataComponent } from './pages/board/board-data/board-data.componen
 import { httpInterceptorProviders } from './helpers/http.interceptor';
 import { AuthGuardService as AuthGuard } from './guards/auth/auth-guard.service';
 
+import { MaterialModule } from './material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +34,8 @@ import { AuthGuardService as AuthGuard } from './guards/auth/auth-guard.service'
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [httpInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent]
