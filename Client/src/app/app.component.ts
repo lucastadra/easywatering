@@ -3,11 +3,11 @@ import { StorageService } from './services/storage/storage.service';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { ThemePalette } from '@angular/material/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   isLoggedIn = false;
@@ -19,8 +19,22 @@ export class AppComponent {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  routes = [['home', 'Início'], ['board/data', 'Dados'], ['profile', 'Perfil'], ['login', 'Login'], ['register', 'Cadastrar']];
+  activeLink = this.routes[0][0];
+  background: ThemePalette = 'primary';
 
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.storageService.isLoggedIn();
+
+    if (!this.isLoggedIn) {
+      this.routes = [['home', 'Início'], ['login', 'Login'], ['register', 'Cadastrar']];
+    } else {
+      this.routes = [['home', 'Início'], ['board/data', 'Dados'], ['profile', 'Perfil']];
+    }
+
+    this.activeLink = this.router.url === '/' ? 'home' : this.router.url;
+    console.log(this.router.url);
     if(!this.authService.isTokenExpired()){
       Swal.fire('Faça login para acessar o sistema.', '', 'info');
       this.router.navigate(['login']);
@@ -47,5 +61,10 @@ export class AppComponent {
     });
     
     window.location.reload();
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+    this.activeLink = route;
   }
 }

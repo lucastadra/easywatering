@@ -16,7 +16,7 @@ export class BoardDataComponent implements OnInit {
     this.dataService.getDataByESP().subscribe({
       next: res => {
         this.ESPData = res.data;
-        console.log(this.ESPData);
+        //console.log(this.ESPData);
       },
       error: err => {console.log(err)
         if (err.error) {

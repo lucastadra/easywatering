@@ -1,4 +1,15 @@
 <div id="app">
+  <div class="custom-navbar">
+    <a href="#" class="navbar-brand">EasyWatering</a>
+  </div>
+  <nav mat-tab-nav-bar [backgroundColor]="background" [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let route of routes"
+       (click)="navigateTo(route[0])"
+       [active]="activeLink == route[0]"> {{route[1]}} </a>
+    <a mat-tab-link *ngIf="isLoggedIn" (click)="logout()">Sair</a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+<!--   
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand">EasyWatering</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
@@ -23,14 +34,11 @@
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-      <!-- <li class="nav-item">
-        <a href="/profile" class="nav-link" routerLink="profile">{{ full_name }}</a>
-      </li> -->
       <li class="nav-item">
         <a href class="nav-link" (click)="logout()">Sair</a>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 
   <div class="container">
     <router-outlet></router-outlet>
