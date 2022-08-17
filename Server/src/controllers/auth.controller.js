@@ -14,8 +14,7 @@ exports.Signup = async (req, res) => {
       created_at: Date.now()
     });
 
-    const result = user;
-    if (result) res.send({ message: "User registered successfully!" });
+    if (user) res.send({ message: "User registered successfully!" });
 
   } catch (error) {
     res.status(500).send({ message: error.message });

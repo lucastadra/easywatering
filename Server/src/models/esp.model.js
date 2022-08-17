@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../../config/database/sequelize.config');
 const ESPData = require('./espData.model');
+const Harvest = require('./harvest.model');
 
 class Esp extends Sequelize.Model {};
 
@@ -34,6 +35,22 @@ Esp.hasMany(ESPData, {
 ESPData.belongsTo(Esp, {
     foreignKey: 'esp_id',
     as: 'esp',
+    onDelete: 'CASCADE'
+});
+
+/* 
+ *   One Harvest has Many Esps's, 
+ *   but one Esp belongs to only one Harvest 
+*/
+
+Harvest.hasMany(Esp, {
+    foreignKey: 'harvest_id',
+    as: 'esp'
+});
+
+Esp.belongsTo(Harvest, {
+    foreignKey: 'harvest_id',
+    as: 'harvests',
     onDelete: 'CASCADE'
 });
 

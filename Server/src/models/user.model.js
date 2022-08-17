@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../../config/database/sequelize.config');
 const Esp = require("./esp.model");
+const Harvest = require("./harvest.model");
+
 
 class User extends Sequelize.Model {};
 
@@ -38,7 +40,7 @@ User.init({
 */
 User.hasMany(Esp, {
     foreignKey: 'user_id',
-    as: 'esps'
+    as: 'esp'
 });
 
 Esp.belongsTo(User, {
@@ -46,5 +48,21 @@ Esp.belongsTo(User, {
     as: 'user',
     onDelete: 'CASCADE'
 });
+
+/* 
+ *   One user has Many Harvest's, 
+ *   but one Harvest belongs to only one user 
+*/
+User.hasMany(Harvest, {
+    foreignKey: 'user_id',
+    as: 'harvest'
+});
+
+Harvest.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user',
+    onDelete: 'CASCADE'
+});
+
 
 module.exports = User;
