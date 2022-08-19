@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
     this.harvestService.getAll().subscribe({
       next: res => {
         this.harvests = res.harvests;
-        console.log(this.harvests);
       },
       error: err => {console.log(err)
         if (err.error) {
@@ -50,7 +49,6 @@ export class HomeComponent implements OnInit {
               icon: 'success',
               confirmButtonColor: '#0D7B6C'
             })
-            console.log(this.harvests);
           },
           error: err => {console.log(err)
             if (err.error) {
@@ -67,7 +65,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  navigateTo(route: string) {
-    this.router.navigate([route]);
+  handleManage(harvestId: string | number): void {
+    this.router.navigate(['harvest/irrigators', { e: btoa(harvestId.toString()) }]);
   }
 }

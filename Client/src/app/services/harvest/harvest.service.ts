@@ -14,15 +14,12 @@ export class HarvestService {
     return this.http.get('/api/harvest/', { });
   }
   
-  getHarvestId(harvestId: number | string): Observable<any> {
-    return this.http.post(`/api/harvest/${harvestId}`, { });
+  getByHarvestId(harvestId: number | string): Observable<any> {
+    return this.http.get(`/api/harvest/${harvestId}`, { });
   }
 
   deleteHarvest(harvestId: number | string): Observable<any> {
     return this.http.delete(`/api/harvest/${harvestId}`, { });
   }
 
-  getDataByESP(): Observable<any> {
-    return this.http.get('/api/data/esp/' + '6f9629a8-8827-44d2-94ed-cad4b6fe9154', {  });
-  }
 }

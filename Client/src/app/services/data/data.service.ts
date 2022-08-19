@@ -13,7 +13,7 @@ export class DataService {
   getDataById(dataId: number | string): Observable<any> {
     return this.http.post(`/api/data/${dataId}`, { responseType: 'text' });
   }
-  getDataByESP(): Observable<any> {
-    return this.http.get('/api/data/esp/' + '6f9629a8-8827-44d2-94ed-cad4b6fe9154', {  });
+  getDataByESP(espId: string): Observable<any> {
+    return this.http.get(`/api/data/esp/${espId}`, {  });
   }
 }

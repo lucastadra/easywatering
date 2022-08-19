@@ -52,10 +52,6 @@ exports.GetByESP = async (req, res) => {
       res.status(404).send({ message: "ESP ID not provided." });
     }
     
-    if (isNaN(parseInt(req.params.espId, 10))) {
-      res.status(404).send({ message: "ESP ID is not valid." });
-    }
-
     const user = await Users.findOne({ where: { id: req.userId } })
 
     if (!user) {
