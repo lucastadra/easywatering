@@ -38,7 +38,7 @@ class MqttHandler {
 
       if (topic === 'easywatering/data') {
         // Call method to parse data and store in DB;
-        this.#processMessage(message.toString());
+        //this.#processMessage(message.toString());
       }
     });
 
@@ -49,7 +49,7 @@ class MqttHandler {
 
   // Sends a mqtt message to topic: mytopic
   sendMessage(topic, message) {
-    console.log(`[SENT MESSAGE] Topic: ${topic} | Message: ${message.toString()}`);
+    console.log(`[SENT MESSAGE] Topic: ${topic} / Message: ${message.toString()}`);
     this.mqttClient.publish(topic.toString(), message.toString());
   }
 

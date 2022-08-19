@@ -75,5 +75,7 @@ export class IrrigatorsDataComponent implements OnInit, AfterViewInit {
     }
   }
 
-
+  handleManage(espId: string): void {
+    this.router.navigate(['harvest/irrigators/irrigators-data/irrigators-charts', { e: btoa(espId.toString()) }]);
+  }
 }

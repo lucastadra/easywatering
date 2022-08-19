@@ -1,6 +1,6 @@
 <div class="container my-5">
     <h1><b>Dados</b></h1>
-    <h4><b><a>Clique aqui para visualizar gráficos</a></b></h4>
+    <h4><b><a (click)="handleManage(this.espId)">Clique aqui para visualizar gráficos</a></b></h4>
     <mat-form-field appearance="standard">
         <mat-label>Filtrar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Temperatura" #input>
