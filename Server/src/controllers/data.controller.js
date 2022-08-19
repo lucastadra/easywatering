@@ -78,10 +78,6 @@ exports.GetByESP = async (req, res) => {
       }
     })
 
-    if (!data) {
-      return res.status(404).send({ message: "Data not found." });
-    }
-
     res.status(200).send({ data });
 
   } catch (error) {
@@ -136,10 +132,6 @@ exports.GetByType = async (req, res) => {
         type: parseInt(req.params.typeId, 10)
       }
     })
-
-    if (!data) {
-      return res.status(404).send({ message: "Data not found." });
-    }
 
     res.status(200).send({ data });
 

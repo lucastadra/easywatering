@@ -29,7 +29,7 @@ exports.GetAll = async (req, res) => {
             }
         });
 
-        res.send({ harvests });
+        res.status(200).send({ harvests });
 
     } catch (error) {
         res.status(500).send({ message: error.message });
@@ -66,7 +66,7 @@ exports.GetById = async (req, res) => {
             return res.status(403).send({ message: "User not authorized to view Harvest." });
         }
 
-        res.send({ harvest });
+        res.status(200).send({ harvest });
 
     } catch (error) {
         res.status(500).send({ message: error.message });
