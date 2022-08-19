@@ -19,7 +19,7 @@ export class AppComponent {
     private router: Router
   ) { }
 
-  routes = [['home', 'Início'], ['board/data', 'Dados'], ['profile', 'Perfil'], ['login', 'Login'], ['register', 'Cadastrar']];
+  routes = [['home', 'Hortas'], ['profile', 'Perfil'], ['login', 'Login'], ['register', 'Cadastrar']];
   activeLink = this.routes[0][0];
   background: ThemePalette = 'primary';
 
@@ -28,13 +28,12 @@ export class AppComponent {
     this.isLoggedIn = this.storageService.isLoggedIn();
 
     if (!this.isLoggedIn) {
-      this.routes = [['home', 'Início'], ['login', 'Login'], ['register', 'Cadastrar']];
+      this.routes = [['login', 'Login'], ['register', 'Cadastrar']];
     } else {
-      this.routes = [['home', 'Início'], ['board/data', 'Dados'], ['profile', 'Perfil']];
+      this.routes = [['home', 'Hortas'], ['profile', 'Perfil']];
     }
 
     this.activeLink = this.router.url === '/' ? 'home' : this.router.url;
-    console.log(this.router.url);
     if(!this.authService.isTokenExpired()){
       Swal.fire('Faça login para acessar o sistema.', '', 'info');
       this.router.navigate(['login']);

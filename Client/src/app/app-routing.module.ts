@@ -5,7 +5,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { BoardDataComponent } from './pages/board/board-data/board-data.component';
+import { HarvestIrrigatorsComponent } from './pages/harvest/harvest-irrigators/harvest-irrigators.component';
+import { IrrigatorsDataComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-data.component';
+
 
 import { 
   AuthGuardService as AuthGuard 
@@ -17,7 +19,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'board/data', component: BoardDataComponent, canActivate: [AuthGuard] },
+  { path: 'harvest/irrigators', component: HarvestIrrigatorsComponent, canActivate: [AuthGuard] },
+  { path: 'harvest/irrigators/irrigators-data', component: IrrigatorsDataComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home' }
 ];
 

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BoardDataComponent } from './board-data.component';
+import { IrrigatorsDataComponent } from './irrigators-data.component';
 
-describe('BoardDataComponent', () => {
-  let component: BoardDataComponent;
-  let fixture: ComponentFixture<BoardDataComponent>;
+describe('IrrigatorsDataComponent', () => {
+  let component: IrrigatorsDataComponent;
+  let fixture: ComponentFixture<IrrigatorsDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardDataComponent ]
+      declarations: [ IrrigatorsDataComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BoardDataComponent);
+    fixture = TestBed.createComponent(IrrigatorsDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

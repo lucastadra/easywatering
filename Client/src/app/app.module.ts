@@ -12,7 +12,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { BoardDataComponent } from './pages/board/board-data/board-data.component';
+import { HarvestIrrigatorsComponent } from './pages/harvest/harvest-irrigators/harvest-irrigators.component';
+import { IrrigatorsDataComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-data.component';
 
 /* Providers */
 import { httpInterceptorProviders } from './helpers/http.interceptor';
@@ -27,7 +28,8 @@ import { MaterialModule } from './material.module';
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
-    BoardDataComponent,
+    HarvestIrrigatorsComponent,
+    IrrigatorsDataComponent
   ],
   imports: [
     BrowserModule,

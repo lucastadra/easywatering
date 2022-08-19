@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+    /* table-layout: fixed; */
+  }
+  
+  th, td {
+    overflow: hidden;
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.container {
+    padding-bottom: 42px;
+}
