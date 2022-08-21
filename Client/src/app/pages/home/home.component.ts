@@ -72,6 +72,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['harvest/irrigators', { e: btoa(harvestId.toString()) }]);
   }
 
+  handleEdit(harvestId: string | number): void {
+    this.router.navigate(['harvest/edit', { e: btoa(harvestId.toString()) }]);
+  }
+
   handleNewHarvest(): void {
     this.router.navigate(['harvest/register']);
   }

@@ -3,7 +3,7 @@
     <div class="icon-title-container">
       <h1>
       <fa-icon [icon]="faSeedling"></fa-icon>
-      <b> Cadastrar nova Horta</b></h1>
+      <b> Editar Horta</b></h1>
     </div>
     <form
       *ngIf="!isSuccessful"
@@ -38,7 +38,7 @@
       <div class="form-group">
         <label for="desc">Descrição</label>
         <input
-          type="desc"
+          type="text"
           class="form-control"
           name="desc"
           [(ngModel)]="form.desc"
@@ -58,7 +58,7 @@
         <button class="btn btn-primary btn-block">Enviar</button>
       </div>
 
-      <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
+      <div class="alert alert-warning" *ngIf="f.submitted && isEditFailed">
         Não foi possível registrar: <br />{{ errorMessage }}
       </div>
     </form>

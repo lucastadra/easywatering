@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HarvestService } from '../../../services/harvest/harvest.service';
+import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-harvest-register',
@@ -15,6 +16,7 @@ export class HarvestRegisterComponent implements OnInit {
   isSuccessful = false;
   isRegisterFailed = false;
   errorMessage = '';
+  faSeedling = faSeedling;
 
   constructor(private harvestService: HarvestService, private router: Router) { }
 

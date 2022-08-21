@@ -9,6 +9,7 @@ import { HarvestIrrigatorsComponent } from './pages/harvest/harvest-irrigators/h
 import { IrrigatorsDataComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-data.component';
 import { IrrigatorsChartsComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-charts/irrigators-charts.component';
 import { HarvestRegisterComponent } from './pages/harvest/harvest-register/harvest-register.component';
+import { HarvestEditComponent } from './pages/harvest/harvest-edit/harvest-edit.component';
 
 import { 
   AuthGuardService as AuthGuard 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'harvest/irrigators', component: HarvestIrrigatorsComponent, canActivate: [AuthGuard] },
   { path: 'harvest/register', component: HarvestRegisterComponent, canActivate: [AuthGuard] },
+  { path: 'harvest/edit', component: HarvestEditComponent, canActivate: [AuthGuard] },
   { path: 'harvest/irrigators/irrigators-data', component: IrrigatorsDataComponent, canActivate: [AuthGuard]},
   { path: 'harvest/irrigators/irrigators-data/irrigators-charts', component: IrrigatorsChartsComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home' }

@@ -23,7 +23,10 @@ export class HarvestService {
   }
 
   register(name: string, desc: string): Observable<any> {
-    console.log("caiu aqui")
     return this.http.post('/api/harvest/', { name, desc });
+  }
+
+  edit(name: string, desc: string, harvestId: number | string): Observable<any> {
+    return this.http.put(`/api/harvest/${harvestId}`, { name, desc });
   }
 }
