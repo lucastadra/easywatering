@@ -40,19 +40,22 @@ export class IrrigatorsChartsComponent implements OnInit {
   espId: any = "";
   data: IESPData[] = [];
   tempData: any[] = [];
-  umidData:any[] = [];
+  umidData: any[] = [];
+  soilData: any[] = [];
 
-  chartOptions: Partial<ChartOptions> | any = {
+  AirChartOptions: Partial<ChartOptions> | any = {
     series: [],
     chart: {
-    height: 350,
-    type: 'line',
+      height: 350,
+      type: 'line',
     },
     dataLabels: {
       enabled: false
     },
+    colors: ["#FF1654", "#247BA0"],
+
     title: {
-      text: 'Temperatura do Ar x Umidade',
+      text: 'Temperatura e Umidade',
     },
     noData: {
       text: 'Loading...'
@@ -80,6 +83,37 @@ export class IrrigatorsChartsComponent implements OnInit {
     ]
   };
 
+  SoilChartOptions: Partial<ChartOptions> | any = {
+    series: [],
+    chart: {
+      height: 350,
+      type: 'line',
+    },
+    dataLabels: {
+      enabled: false
+    },
+    title: {
+      text: 'Umidade do Solo',
+    },
+    noData: {
+      text: 'Loading...'
+    },
+    xaxis: {
+      type: 'category',
+      tickPlacement: 'on',
+      labels: {
+        rotate: -15,
+        rotateAlways: true
+      }
+    },
+    yaxis: [
+      {
+        title: {
+          text: 'Umidade do Solo em %'
+        }
+      }
+    ]
+  };
   constructor(
     private dataService: DataService, 
     private activatedRoute: ActivatedRoute,
@@ -108,35 +142,93 @@ export class IrrigatorsChartsComponent implements OnInit {
             if (item.type == 2) {
               this.umidData.push({y: item.value, x: new Date(item.created_at).toLocaleString()})
             }
+            if (item.type == 3) {
+              this.soilData.push({y: item.value, x: new Date(item.created_at).toLocaleString()})
+            }
           })
-          this.chartOptions.series = [
+
+          this.AirChartOptions.series = [
             {
               data: this.tempData,
-              name: "Temperatura do Ar"
+              name: 'Temperatura do Ar',
+              color: '#FF1654',
+              stroke: {
+                width: [4, 4]
+              },
+              plotOptions: {
+                bar: {
+                  columnWidth: "20%"
+                }
+              },
             },
             {
               data: this.umidData,
-              name: "Umidade do Ar"
+              name: 'Umidade do Ar',
+              color: '#247BA0',
+              stroke: {
+                width: [4, 4]
+              },
+              plotOptions: {
+                bar: {
+                  columnWidth: "20%"
+                }
+              },
             }
           ];
 
-          this.chartOptions.yaxis = [
+          this.AirChartOptions.yaxis = [
             {
+              axisTicks: {
+                show: true
+              },
+              axisBorder: {
+                show: true,
+                color: "#FF1654"
+              },
+              labels: {
+                style: {
+                  colors: "#FF1654"
+                }
+              },
               title: {
-                text: 'Temperatura em ºC'
+                text: "Temperatura em ºC",
+                style: {
+                  color: "#FF1654"
+                }
               }
             },
             {
               opposite: true,
-              title: {
-                text: 'Umidade em %'
-              }
+      axisTicks: {
+        show: true
+      },
+      axisBorder: {
+        show: true,
+        color: "#247BA0"
+      },
+      labels: {
+        style: {
+          colors: "#247BA0"
+        }
+      },
+      title: {
+        text: "Umidade do Ar em %",
+        style: {
+          color: "#247BA0"
+        }
+      }
+            }
+          ]
+
+          this.SoilChartOptions.series = [
+            {
+              data: this.soilData,
+              name: 'Umidade do Solo em %'
             }
           ]
           // this.chartOptions.series[0].data = null;
           // this.chartOptions.series[0].data = this.tempData;
           // this.chart.render();
-          console.log(this.chartOptions );
           
         },
         error: err => {console.log(err)

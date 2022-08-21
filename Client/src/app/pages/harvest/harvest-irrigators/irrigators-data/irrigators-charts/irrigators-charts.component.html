@@ -1,10 +1,15 @@
-<apx-chart
-[series]="chartOptions.series"
-[chart]="chartOptions.chart"
-[xaxis]="chartOptions.xaxis"
-[yaxis]="chartOptions.yaxis"
-[dataLabels]="chartOptions.dataLabels"
-[grid]="chartOptions.grid"
-[stroke]="chartOptions.stroke"
-[title]="chartOptions.title"
-></apx-chart>
+<div class="col-md-12 my-5">
+    <div class="card card-container py-5 px-3">
+        <apx-chart [series]="AirChartOptions.series" [chart]="AirChartOptions.chart" [xaxis]="AirChartOptions.xaxis"
+            [yaxis]="AirChartOptions.yaxis" [dataLabels]="AirChartOptions.dataLabels" [grid]="AirChartOptions.grid"
+            [stroke]="AirChartOptions.stroke" [title]="AirChartOptions.title"></apx-chart>
+    </div>
+</div>
+
+<div class="col-md-12 mt-3">
+    <div class="card card-container pt-5 px-3">
+        <apx-chart [series]="SoilChartOptions.series" [chart]="SoilChartOptions.chart" [xaxis]="SoilChartOptions.xaxis"
+            [yaxis]="SoilChartOptions.yaxis" [dataLabels]="SoilChartOptions.dataLabels" [grid]="SoilChartOptions.grid"
+            [stroke]="SoilChartOptions.stroke" [title]="SoilChartOptions.title"></apx-chart>
+    </div>
+</div>
