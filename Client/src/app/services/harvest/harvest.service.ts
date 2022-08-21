@@ -22,4 +22,8 @@ export class HarvestService {
     return this.http.delete(`/api/harvest/${harvestId}`, { });
   }
 
+  register(name: string, desc: string): Observable<any> {
+    console.log("caiu aqui")
+    return this.http.post('/api/harvest/', { name, desc });
+  }
 }

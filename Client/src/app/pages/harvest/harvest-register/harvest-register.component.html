@@ -1,0 +1,70 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img
+      id="profile-img"
+      src="../../assets/logo-easywatering.jpg"
+      class="profile-img-card"
+    />
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="name">Nome da Horta</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          [(ngModel)]="form.name"
+          required
+          minlength="2"
+          maxlength="30"
+          #name="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && name.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="name.errors && f.submitted">
+          <div *ngIf="name.errors['required']">O Nome é obrigatório</div>
+          <div *ngIf="name.errors['minlength']">
+            O nome não pode conter menos de 2 caracteres
+          </div>
+          <div *ngIf="name.errors['maxlength']">
+            O nome não pode conter mais de 30 caracteres
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="desc">Descrição</label>
+        <input
+          type="desc"
+          class="form-control"
+          name="desc"
+          [(ngModel)]="form.desc"
+          required
+          #desc="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && desc.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="desc.errors && f.submitted">
+          <div *ngIf="desc.errors['required']">a descrição é obrigatória</div>
+          <div *ngIf="desc.errors['desc']">
+            A descrição é inválida
+          </div>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Enviar</button>
+      </div>
+
+      <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
+        Não foi possível registrar: <br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Registrado com sucesso!
+    </div>
+  </div>
+</div>

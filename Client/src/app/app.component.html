@@ -1,6 +1,8 @@
 <div id="app">
   <div class="custom-navbar">
-    <a href="#" class="navbar-brand">EasyWatering</a>
+    <a href="#" class="navbar-brand">
+    <fa-icon [icon]="faSeedling"></fa-icon>
+    EasyWatering</a>
   </div>
   <nav mat-tab-nav-bar [backgroundColor]="background" [tabPanel]="tabPanel">
     <a mat-tab-link *ngFor="let route of routes"

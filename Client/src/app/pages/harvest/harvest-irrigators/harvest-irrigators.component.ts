@@ -5,6 +5,7 @@ import { HarvestService } from 'src/app/services/harvest/harvest.service';
 import { EspService } from 'src/app/services/esp/esp.service';
 import Swal from 'sweetalert2';
 import { IESPData } from '../../../../shared/interfaces/interfaces';
+import { faFaucet } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-harvest-irrigators',
@@ -16,6 +17,7 @@ export class HarvestIrrigatorsComponent implements OnInit {
   harvestId: string | number = "";
   harvest: any = "";
   espList: any = [];
+  faFaucet = faFaucet;
 
   constructor(
     private dataService: DataService, 

@@ -1,4 +1,11 @@
 <div class="container my-5">
+  <div class="icon-title-container">
+    <h1>
+    <fa-icon [icon]="faSeedling"></fa-icon>
+    <b> Hortas Cadastradas</b></h1>
+    <h4><a (click)="handleNewHarvest()">Clique <b>aqui</b> para adicionar uma nova horta</a></h4>
+  </div>
+
   <div *ngFor="let harvest of harvests">
     <mat-card>
       <mat-card-title>{{ harvest.name }}</mat-card-title>

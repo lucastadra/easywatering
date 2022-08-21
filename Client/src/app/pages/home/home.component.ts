@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HarvestService } from 'src/app/services/harvest/harvest.service';
 import Swal from 'sweetalert2';
+import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ import Swal from 'sweetalert2';
 export class HomeComponent implements OnInit {
   panelOpenState = false;
   harvests: any[] = [];
+  faSeedling = faSeedling;
+
   constructor(private harvestService: HarvestService, private router: Router) { }
 
   ngOnInit(): void {
@@ -67,5 +70,9 @@ export class HomeComponent implements OnInit {
 
   handleManage(harvestId: string | number): void {
     this.router.navigate(['harvest/irrigators', { e: btoa(harvestId.toString()) }]);
+  }
+
+  handleNewHarvest(): void {
+    this.router.navigate(['harvest/register']);
   }
 }

@@ -1,5 +1,7 @@
 <div class="container my-5">
-    <h1><b>Irrigadores na horta {{harvest.name}}</b></h1>
+    <h1>
+      <fa-icon [icon]="faFaucet"></fa-icon>
+      <b> Irrigadores na horta {{harvest.name}}</b></h1>
     <div *ngFor="let esp of espList">
       <mat-card>
         <mat-card-title>{{ esp.alias }}</mat-card-title>

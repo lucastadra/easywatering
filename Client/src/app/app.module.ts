@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { HarvestIrrigatorsComponent } from './pages/harvest/harvest-irrigators/harvest-irrigators.component';
 import { IrrigatorsDataComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-data.component';
 import { IrrigatorsChartsComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-charts/irrigators-charts.component';
+import { HarvestRegisterComponent } from './pages/harvest/harvest-register/harvest-register.component';
+
 
 
 /* Providers */
@@ -33,7 +36,8 @@ import { AuthGuardService as AuthGuard } from './guards/auth/auth-guard.service'
     ProfileComponent,
     HarvestIrrigatorsComponent,
     IrrigatorsDataComponent,
-    IrrigatorsChartsComponent
+    IrrigatorsChartsComponent,
+    HarvestRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,7 @@ import { AuthGuardService as AuthGuard } from './guards/auth/auth-guard.service'
     BrowserAnimationsModule,
     MaterialModule,
     NgApexchartsModule,
+    FontAwesomeModule
   ],
   providers: [httpInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent]

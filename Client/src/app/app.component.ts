@@ -4,6 +4,8 @@ import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ThemePalette } from '@angular/material/core';
+import { faSeedling } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +14,7 @@ import { ThemePalette } from '@angular/material/core';
 export class AppComponent {
   isLoggedIn = false;
   full_name?: string;
+  faSeedling = faSeedling;
 
   constructor(
     private storageService: StorageService, 
@@ -19,7 +22,7 @@ export class AppComponent {
     private router: Router
   ) { }
 
-  routes = [['home', 'Hortas'], ['profile', 'Perfil'], ['login', 'Login'], ['register', 'Cadastrar']];
+  routes = [['home', 'Hortas'], ['login', 'Login'], ['register', 'Cadastrar']];
   activeLink = this.routes[0][0];
   background: ThemePalette = 'primary';
 
