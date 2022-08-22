@@ -8,7 +8,7 @@ import { IESPData } from '../../../../../shared/interfaces/interfaces';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-irrigators-data',
@@ -22,6 +22,8 @@ export class IrrigatorsDataComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'value', 'desc', 'created_at'];
   // dataSource!: MatTableDataSource<IESPData>;
   dataSource = new MatTableDataSource<IESPData>();
+
+  faChartLine = faChartLine;
 
   @ViewChild(MatSort, {static: false})
   set sort(value: MatSort) {
@@ -77,5 +79,18 @@ export class IrrigatorsDataComponent implements OnInit, AfterViewInit {
 
   handleManage(espId: string): void {
     this.router.navigate(['harvest/irrigators/irrigators-data/irrigators-charts', { e: btoa(espId.toString()) }]);
+  }
+
+  handleWaterPump(espId: string): void {
+    this.espService.changePumpState(espId).subscribe({
+      next: res => {
+        Swal.fire('Bomba acionada com sucesso.', '', 'success');
+      },
+      error: err => {console.log(err)
+        if (err.error) {
+          Swal.fire(`${err.error.message}`, '', 'error');
+        }
+      }
+    });
   }
 }

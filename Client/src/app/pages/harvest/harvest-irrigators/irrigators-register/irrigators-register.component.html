@@ -1,0 +1,52 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <div class="icon-title-container">
+      <h1>
+        <fa-icon [icon]="faFaucet"></fa-icon>
+      <b> Cadastrar novo Irrigador</b></h1>
+    </div>
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="name">Nome do Irrigador</label>
+        <input
+          type="text"
+          class="form-control"
+          name="alias"
+          [(ngModel)]="form.alias"
+          required
+          minlength="2"
+          maxlength="30"
+          #alias="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && alias.errors }"
+        />
+        <div class="invalid-feedback" *ngIf="alias.errors && f.submitted">
+          <div *ngIf="alias.errors['required']">O Nome é obrigatório</div>
+          <div *ngIf="alias.errors['minlength']">
+            O nome não pode conter menos de 2 caracteres
+          </div>
+          <div *ngIf="alias.errors['maxlength']">
+            O nome não pode conter mais de 30 caracteres
+          </div>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Enviar</button>
+      </div>
+
+      <div class="alert alert-warning" *ngIf="f.submitted && isRegisterFailed">
+        Não foi possível registrar: <br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Registrado com sucesso!
+    </div>
+  </div>
+</div>

@@ -2,13 +2,14 @@
     <h1>
       <fa-icon [icon]="faFaucet"></fa-icon>
       <b> Irrigadores na horta {{harvest.name}}</b></h1>
+    <h4><a (click)="handleRegister()">Clique <b>aqui</b> para adicionar um novo Irrigador</a></h4>
     <div *ngFor="let esp of espList">
       <mat-card>
         <mat-card-title>{{ esp.alias }}</mat-card-title>
         <mat-card-subtitle class="mt-2 pl-2">{{ esp.status === true ? 'Ativo' : 'Inativo' }}</mat-card-subtitle>
         <mat-card-actions>
           <button mat-button (click)="handleManage(esp.id)">DADOS</button>
-          <button mat-button>REMOVER</button>
+          <button mat-button (click)="handleDelete(esp.id)">REMOVER</button>
         </mat-card-actions>
       </mat-card>
       <br>

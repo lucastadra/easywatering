@@ -20,6 +20,8 @@ import { IrrigatorsDataComponent } from './pages/harvest/harvest-irrigators/irri
 import { IrrigatorsChartsComponent } from './pages/harvest/harvest-irrigators/irrigators-data/irrigators-charts/irrigators-charts.component';
 import { HarvestRegisterComponent } from './pages/harvest/harvest-register/harvest-register.component';
 import { HarvestEditComponent } from './pages/harvest/harvest-edit/harvest-edit.component';
+import { IrrigatorsRegisterComponent } from './pages/harvest/harvest-irrigators/irrigators-register/irrigators-register.component';
+// import { IrrigatorsEditComponent } from './pages/harvest/harvest-irrigators/irrigators-edit/irrigators-edit.component';
 
 /* Providers */
 import { httpInterceptorProviders } from './helpers/http.interceptor';
@@ -37,7 +39,8 @@ import { AuthGuardService as AuthGuard } from './guards/auth/auth-guard.service'
     IrrigatorsDataComponent,
     IrrigatorsChartsComponent,
     HarvestRegisterComponent,
-    HarvestEditComponent
+    HarvestEditComponent,
+    IrrigatorsRegisterComponent
   ],
   imports: [
     BrowserModule,

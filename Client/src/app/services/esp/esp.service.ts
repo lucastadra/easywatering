@@ -20,4 +20,20 @@ export class EspService {
     return this.http.get(`/api/esp/harvest/${harvestId}`, { });
   }
 
+  register(alias: string, harvest_id: number | string): Observable<any> {
+    return this.http.post('/api/esp/', { alias, harvest_id });
+  }
+
+  delete(espId: number | string): Observable<any> {
+    return this.http.delete(`/api/esp/${espId}`, { });
+  }
+
+  changePumpState(espId: string): Observable<any> {
+    var mqttData = {
+      topic: `easywatering/pump/${espId}`,
+      message: "ON"
+    }
+
+    return this.http.post('/api/mqtt/pub', { topic: mqttData.topic, message: mqttData.message });
+  }
 }
