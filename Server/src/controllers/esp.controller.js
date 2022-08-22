@@ -144,3 +144,38 @@ exports.Create = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
+
+exports.Delete = async (req, res) => {
+    try {
+        if (!req.userId) {
+            res.status(404).send({ message: "User ID not provided." });
+        }
+
+        if (isNaN(parseInt(req.params.espId, 10))) {
+            res.status(404).send({ message: "ESP ID is not valid." });
+        }
+
+        const user = await Users.findOne({ where: { id: req.userId } })
+
+        if (!user) {
+            return res.status(404).send({ message: "User not found." });
+        }
+
+        const esp = await ESP.findByPk(req.params.espId);
+
+        if (!esp) {
+            return res.status(404).send({ message: "ESP not found." });
+        }
+
+        if (esp.user_id !== user.id) {
+            return res.status(403).send({ message: "User not authorized to delete ESP." });
+        }
+
+        await esp.destroy();
+
+        res.status(200).send({ message: "ESP was deleted successfully!" });
+
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};

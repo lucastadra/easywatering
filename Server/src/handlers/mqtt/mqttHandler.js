@@ -118,7 +118,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 1,
-                desc: 'Air Temperature',
+                desc: 'Temp. Ambiente',
                 created_at: Date.now(),
                 esp_id: Data.id
               };
@@ -129,7 +129,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 2,
-                desc: 'Air Humidity',
+                desc: 'Umidade do Ar',
                 created_at: Date.now(),
                 esp_id: Data.id
               };
@@ -140,7 +140,7 @@ class MqttHandler {
               var newReading = {
                 value: value,
                 type: 3,
-                desc: 'Soil Moisture',
+                desc: 'Umidade do Solo',
                 created_at: Date.now(),
                 esp_id: Data.id
               };
@@ -155,7 +155,7 @@ class MqttHandler {
         const result = await ESPData.bulkCreate(bulkDataArr);
 
         if (result) {
-          console.log("Sucessfully inserted for ESP: ", ESP.id);
+          //console.log("Sucessfully inserted for ESP: ", ESP.id);
           // console.log(result);
         } else {
           throw new Error();
