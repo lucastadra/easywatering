@@ -22,10 +22,7 @@ Harvest.init({
     desc: {
         type: Sequelize.TEXT,
         allowNull: true,
-        field: 'desc',
-        validate: {
-            max: 40
-        }
+        field: 'desc'
     },
     created_at: {
         type: Sequelize.DATE,

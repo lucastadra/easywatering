@@ -7,5 +7,6 @@ espRouter.get('/', authJwt.verifyToken, espController.GetById);
 espRouter.post('/', authJwt.verifyToken, espController.Create);
 espRouter.get('/:espId', authJwt.verifyToken, espController.GetById);
 espRouter.get('/harvest/:harvestId', authJwt.verifyToken, espController.GetByHarvest);
+espRouter.delete('/:espId', authJwt.verifyToken, espController.Delete);
 
 module.exports = espRouter;
