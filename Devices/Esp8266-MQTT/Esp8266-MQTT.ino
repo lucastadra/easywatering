@@ -1,4 +1,4 @@
-/* -------------------------------- EASYWATERING v2.1-beta -------------------------------- *
+/* -------------------------------- EASYWATERING v3.2 ------------------------------------- *
 *                                                                                           *
    Name: EasyWatering
    Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT
@@ -7,8 +7,8 @@
    Department: Departamento de Informática, Universidade Estadual de Ponta Grossa
    Info: Curso de Engenharia de Computação
    License: GNU General Public License v3.0
-   Date: 13/08/2022
-   Current Version: v2.1-beta
+   Date: 21/08/2022
+   Current Version: v3.2
 *                                                                                           *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -22,8 +22,9 @@
 #define DHTPIN 12
 #define DHTTYPE DHT22
 #define RELAYPIN 4
-#define TIME_INTERVAL 10000 // 10 seconds
-#define PUMP_ON_INTERVAL 5000 // 2 seconds
+#define SEND_DATA_TIME_INTERVAL 10000 // 10 seconds
+#define PUMP_ON_INTERVAL 2000 // 2 seconds
+#define IRRIGATION_INTERVAL 1000 // 15 minutes
 #define WIFI_LED 16
 #define DATA_LED 5
 #define ERROR_LED 0
@@ -37,6 +38,8 @@ const char* MQTT_DATA_SUB_TOPIC = "easywatering/data";
 const char* MQTT_PUMP_SUB_TOPIC = "easywatering/pump/6f9629a8-8827-44d2-94ed-cad4b6fe9154";
 /*********** VAR ***********/
 long lastConnectionTime;
+long lastIrrigationTime;
+float lastSphMeasuring;
 char macAddress[6];
 String strMacAddress;
 boolean PUMP_STATE = false;
@@ -98,6 +101,7 @@ void setup() {
   ticker.detach();
 
   digitalWrite(WIFI_LED, HIGH);
+  lastIrrigationTime = millis();
 }
 
 /*********** CALLBACKS ***********/
@@ -137,6 +141,7 @@ void mqttCB(char* topic, byte* payload, unsigned int length) {
       digitalWrite(RELAYPIN, HIGH);
       delay(PUMP_ON_INTERVAL);
       digitalWrite(RELAYPIN, LOW);
+      lastIrrigationTime = millis();
     } else if (payloadStr == "OFF") {
       if (DEBUG)
         Serial.println("Turning Water Pump OFF");
@@ -165,6 +170,12 @@ void connectMQTT() {
     if (DEBUG)
       Serial.println("Failed to connect to MQTT.");
   }
+}
+
+void autoIrrigation() {
+  digitalWrite(RELAYPIN, HIGH);
+  delay(PUMP_ON_INTERVAL);
+  digitalWrite(RELAYPIN, LOW);
 }
 
 String readSensorData() {
@@ -197,9 +208,19 @@ String readSensorData() {
   if (sph > 100)
     sph = 100.00;
 
+   /* Checks if it is dry and was not irrigated in last 15 minutes */
+  if (lastSphMeasuring < 40 && (sph < 40)) {
+    if ((millis() - lastIrrigationTime) > IRRIGATION_INTERVAL) {
+      lastIrrigationTime = millis();
+    }
+    
+    /* Calls auto irrigation routine */
+    autoIrrigation();
+  }
+  
   /* Builds JSON string */
   sensorData = "{\"temp\": " + String(t) + ", " + "\"umid\": " + String(h) + "," + " \"soil\": " + String(sph);
-
+  lastSphMeasuring = sph;
   return sensorData;
 }
 
@@ -232,14 +253,14 @@ void publishSensorData() {
 
 /*********** LOOP ***********/
 void loop() {
-
+  
   if (!clientMQTT.connected()) {
     connectMQTT();
   }
   clientMQTT.loop();
 
   /* Check if it's time to send new data */
-  if (millis() - lastConnectionTime > TIME_INTERVAL) {
+  if (millis() - lastConnectionTime > SEND_DATA_TIME_INTERVAL) {
     lastConnectionTime = millis();
     publishSensorData();
   }
