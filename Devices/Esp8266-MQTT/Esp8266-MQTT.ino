@@ -8,11 +8,12 @@
    Info: Curso de Engenharia de Computação
    License: GNU General Public License v3.0
    Date: 21/08/2022
-   Current Version: v3.2
+   Last Revision Date: 14/01/2023
+   Current Version: v3.3
 *                                                                                           *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-  /*********** LIBS ***********/
+/*********** LIBS ***********/
 #include <DHT.h>
 #include <PubSubClient.h>
 #include <Ticker.h>
@@ -30,24 +31,30 @@
 #define ERROR_LED 0
 #define SMPIN A0
 /*********** CONST ***********/
-const String ESP_UUID = "6f9629a8-8827-44d2-94ed-cad4b6fe9154";
+/* ESP Config */
+   /* Unique ESP identifier. Ex.: "6f9629a8-8827-44d2-94ed-cad4b6fe9154" */
+const String ESP_UUID = "";
 /* MQTT Config */
-const char* MQTT_BROKER_URL = "192.168.31.61";
-const int MQTT_BROKER_PORT = 1883;
-const char* MQTT_DATA_SUB_TOPIC = "easywatering/data";
-const char* MQTT_PUMP_SUB_TOPIC = "easywatering/pump/6f9629a8-8827-44d2-94ed-cad4b6fe9154";
+   /* MQTT Broker (perferably Mosquitto running locally) IP/HOST. Ex.: "192.168.31.61" */
+const char* MQTT_BROKER_URL = "";
+   /* MQTT Broker port. Ex.: 1883*/
+const int MQTT_BROKER_PORT = 0;
+   /* Server MQTT Topic for sending ESP Data. Ex.: "easywatering/data" */
+const char* MQTT_DATA_SUB_TOPIC = "";
+   /* Server MQTT Topic for receiving Irrigator pump status signal, using ESP_UUID. Ex.: "easywatering/pump/6f9629a8-8827-44d2-94ed-cad4b6fe9154" */
+const char* MQTT_PUMP_SUB_TOPIC = "";
 /*********** VAR ***********/
-long lastConnectionTime;
-long lastIrrigationTime;
-float lastSphMeasuring;
-char macAddress[6];
+long lastConnectionTime; // Last time where ESP was connected for sending data. 
+long lastIrrigationTime; // Last time where ESP irrigation was activated.
+float lastSphMeasuring;  // Last Soil moisture percentage measured.
+char macAddress[6]; 
 String strMacAddress;
-boolean PUMP_STATE = false;
+boolean PUMP_STATE = false; // Watering PUMP state (ON/OFF).
 /*********** OBJECTS/INSTANCES ***********/
-DHT dht(DHTPIN, DHTTYPE);
-WiFiClient clientWIFI;
-PubSubClient clientMQTT(clientWIFI);
-WiFiManager wiFiManager;
+DHT dht(DHTPIN, DHTTYPE); // DHT Sensor config.
+WiFiClient clientWIFI; // WifiClient instance for setting Wireless connection.
+PubSubClient clientMQTT(clientWIFI); // PubSubClient instance for subscribing/publishing to MQTT topics.
+WiFiManager wiFiManager; // WifiManager instance for ESP Wireless configuration.
 Ticker ticker;
 /*********** SETUP ***********/
 void setup() {
@@ -110,7 +117,9 @@ void wifiLedBlink() {
 }
 
 void wifiManagerCB(WiFiManager *wiFiManager) {
-  Serial.println("Settings mode ON.");
+  if (DEBUG)
+   Serial.println("Settings mode ON.");
+   
   ticker.attach(0.2, wifiLedBlink);
 }
 
