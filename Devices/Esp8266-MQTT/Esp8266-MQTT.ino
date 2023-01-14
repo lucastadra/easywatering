@@ -1,4 +1,4 @@
-/* -------------------------------- EASYWATERING v3.2 ------------------------------------- *
+/* -------------------------------- EASYWATERING v3.3 ------------------------------------- *
 *                                                                                           *
    Name: EasyWatering
    Description: Projeto de Irrigação e Monitoramento de Hortas EasyWatering usando MQTT
