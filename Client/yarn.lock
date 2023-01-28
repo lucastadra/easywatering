@@ -6130,10 +6130,10 @@ svg.select.js@^3.0.1:
   dependencies:
     svg.js "^2.6.5"
 
-sweetalert2@^11.4.26:
-  version "11.4.26"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.26.tgz#a09aa01dda9b430f411531c8e2e998e3bc92ab17"
-  integrity sha512-YqH/C6IPudeWVK9R0x3pCOqP7m90Ae50tl98SQBpAwL3+UBl1WYD2+5OaKy0ybiVTKbYe76wwJ3PV+bITLjl+A==
+sweetalert2@^11.4.8:
+  version "11.7.1"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.7.1.tgz#e015b824fec3dcd174babbfedd30d989118c6783"
+  integrity sha512-+1bnkbqBl64FnZmi3g4SzAi4F3pL3S2jF1YQvrysv4GbgizfeFqGkJopxR3FnV/eJm6w2SQ2oAmCxSIBjgP/ag==
 
 symbol-observable@4.0.0:
   version "4.0.0"
@@ -6272,9 +6272,9 @@ typescript@~4.7.2:
   integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
 
 ua-parser-js@^0.7.30:
-  version "0.7.31"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
-  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
+  integrity sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
